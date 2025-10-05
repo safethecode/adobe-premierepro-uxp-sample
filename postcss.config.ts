@@ -1,12 +1,18 @@
-module.exports = {
+import autoprefixer from "autoprefixer";
+import postcssFlexbugsFixes from "postcss-flexbugs-fixes";
+import postcssGapProperties from "postcss-gap-properties";
+import postcssPresetEnv from "postcss-preset-env";
+import tailwindcss from "tailwindcss";
+
+const config = {
   plugins: [
-    require("tailwindcss"),
-    require("autoprefixer")({
+    tailwindcss,
+    autoprefixer({
       flexbox: "no-2009",
       grid: false,
     }),
-    require("postcss-flexbugs-fixes"),
-    require("postcss-gap-properties"),
+    postcssFlexbugsFixes,
+    postcssGapProperties,
 
     (root) => {
       const unsupportedProps = [
@@ -40,13 +46,13 @@ module.exports = {
         }
       });
 
-      const rulesToRemove = [];
+      const rulesToRemove: import("postcss").Rule[] = [];
       root.walkRules((rule) => {
         if (
           rule.selector.includes(":root") ||
           rule.selector.includes("::backdrop")
         ) {
-          const declsToRemove = [];
+          const declsToRemove: import("postcss").Declaration[] = [];
 
           rule.walkDecls((decl) => {
             if (decl.prop.startsWith("--")) {
@@ -64,7 +70,7 @@ module.exports = {
 
       rulesToRemove.forEach((rule) => rule.remove());
 
-      const declsToRemove = [];
+      const declsToRemove: import("postcss").Declaration[] = [];
       root.walkDecls((decl) => {
         if (decl.prop.startsWith("--")) {
           declsToRemove.push(decl);
@@ -97,7 +103,7 @@ module.exports = {
 
       declsToRemove.forEach((decl) => decl.remove());
 
-      const unsupportedSelectors = [];
+      const unsupportedSelectors: import("postcss").Rule[] = [];
       root.walkRules((rule) => {
         const selector = rule.selector;
 
@@ -117,7 +123,7 @@ module.exports = {
       });
       unsupportedSelectors.forEach((rule) => rule.remove());
 
-      const emptyRules = [];
+      const emptyRules: import("postcss").Rule[] = [];
       root.walkRules((rule) => {
         if (!rule.nodes || rule.nodes.length === 0) {
           emptyRules.push(rule);
@@ -126,7 +132,7 @@ module.exports = {
       emptyRules.forEach((rule) => rule.remove());
     },
 
-    require("postcss-preset-env")({
+    postcssPresetEnv({
       stage: 3,
       features: {
         "custom-properties": false,
@@ -136,7 +142,8 @@ module.exports = {
         "color-functional-notation": true,
         "gap-properties": false,
       },
-      autoprefixer: false,
     }),
   ],
 };
+
+export default config;

@@ -37,7 +37,6 @@
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@spectrum-icons/workflow": "^4.2.9",
-    "@types/postcss-preset-env": "^8.0.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.16",
