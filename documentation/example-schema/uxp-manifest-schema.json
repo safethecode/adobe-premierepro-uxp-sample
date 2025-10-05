@@ -1,0 +1,411 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UXP Plugin Manifest",
+  "description": "Schema for UXP plugin manifest.json files",
+  "type": "object",
+  "required": [
+    "manifestVersion",
+    "id",
+    "name",
+    "version",
+    "host",
+    "entrypoints"
+  ],
+  "properties": {
+    "manifestVersion": {
+      "type": "number",
+      "const": 5,
+      "description": "The manifestVersion indicates the version of the manifest schema"
+    },
+    "id": {
+      "type": "string",
+      "description": "The id uniquely identifies a plugin and is used to disambiguate plugin contexts, storage, errors, etc."
+    },
+    "name": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/LocalizedString"
+        }
+      ],
+      "description": "The name visually identifies the plugin in the user interface"
+    },
+    "strings": {
+      "$ref": "#/definitions/StringsDefinition",
+      "description": "A set of strings used to localize the plugin name and other user-facing strings"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+(\\.\\d+)*$",
+      "description": "The version indicates the plugin's version"
+    },
+    "main": {
+      "type": "string",
+      "description": "Indicates the primary JavaScript or HTML file, relative to the plugin's installation directory"
+    },
+    "icons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/IconDefinition"
+      },
+      "description": "An array of icons representing the overall plugin or panel icon"
+    },
+    "host": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/HostDefinition"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HostDefinition"
+          }
+        }
+      ],
+      "description": "The host object or array indicates the plugin's compatibility with the host"
+    },
+    "entrypoints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EntrypointDefinition"
+      },
+      "description": "The entrypoints array defines the entrypoints that the plugin provides"
+    },
+    "requiredPermissions": {
+      "$ref": "#/definitions/PermissionsDefinition",
+      "description": "Indicates the various permissions this plugin requires"
+    },
+    "addon": {
+      "type": "object",
+      "description": "Addon definitions for hybrid plugins (not supported in Premiere Pro v25.2)"
+    },
+    "featureFlags": {
+      "$ref": "#/definitions/FeatureFlags",
+      "description": "A set of feature flags that can be used to enable or disable certain features"
+    }
+  },
+  "definitions": {
+    "LocalizedString": {
+      "type": "object",
+      "required": ["default"],
+      "properties": {
+        "default": {
+          "type": "string",
+          "description": "The default string used when no translation is available for the current locale"
+        }
+      },
+      "patternProperties": {
+        "^[a-z]{2}(-[A-Z]{2})?$": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "StringsDefinition": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9._-]+$": {
+          "$ref": "#/definitions/LocalizedString"
+        }
+      },
+      "additionalProperties": false
+    },
+    "IconDefinition": {
+      "type": "object",
+      "required": ["width", "height", "path"],
+      "properties": {
+        "width": {
+          "type": "number",
+          "description": "The width of the icon in pixels"
+        },
+        "height": {
+          "type": "number",
+          "description": "The height of the icon in pixels"
+        },
+        "path": {
+          "type": "string",
+          "description": "The path to the icon, relative to the plugin's installation directory"
+        },
+        "scale": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "Specifies the scaling factors that the icon supports"
+        },
+        "theme": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["all", "lightest", "light", "medium", "dark", "darkest"]
+          },
+          "description": "Specifies the themes that the icon supports"
+        },
+        "species": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["generic", "toolbar", "pluginList"]
+          },
+          "description": "Indicates the suitable use of this icon"
+        }
+      },
+      "additionalProperties": false
+    },
+    "EntrypointDefinition": {
+      "type": "object",
+      "required": ["type", "id", "label"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["command", "panel"],
+          "description": "The type of entrypoint"
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the entrypoint"
+        },
+        "label": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/LocalizedString"
+            }
+          ],
+          "description": "The label of the entrypoint"
+        },
+        "description": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/LocalizedString"
+            }
+          ],
+          "description": "A description of the entrypoint"
+        },
+        "shortcut": {
+          "type": "object",
+          "properties": {
+            "mac": {
+              "type": "string",
+              "description": "Keyboard shortcut for macOS"
+            },
+            "win": {
+              "type": "string",
+              "description": "Keyboard shortcut for Windows"
+            }
+          },
+          "additionalProperties": false,
+          "description": "A keyboard shortcut that can be used to invoke the entrypoint"
+        },
+        "icon": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IconDefinition"
+          },
+          "description": "An icon specific to the entrypoint"
+        },
+        "minimumSize": {
+          "$ref": "#/definitions/SizeDefinition",
+          "description": "Indicates the desired minimum size of the view"
+        },
+        "maximumSize": {
+          "$ref": "#/definitions/SizeDefinition",
+          "description": "The maximum desired size of the view"
+        },
+        "preferredDockedSize": {
+          "$ref": "#/definitions/SizeDefinition",
+          "description": "The preferred size of the view when docked"
+        },
+        "preferredFloatingSize": {
+          "$ref": "#/definitions/SizeDefinition",
+          "description": "The preferred size of the panel when floating"
+        }
+      },
+      "additionalProperties": false
+    },
+    "SizeDefinition": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {
+        "width": {
+          "type": "number",
+          "description": "Width in pixels"
+        },
+        "height": {
+          "type": "number",
+          "description": "Height in pixels"
+        }
+      },
+      "additionalProperties": false
+    },
+    "HostDefinition": {
+      "type": "object",
+      "required": ["app", "minVersion"],
+      "properties": {
+        "app": {
+          "type": "string",
+          "enum": ["PS", "ID", "premierepro", "XD"],
+          "description": "The host app that the plugin supports"
+        },
+        "minVersion": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)*$",
+          "description": "The minimum version of the host app that the plugin supports"
+        },
+        "maxVersion": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)*$",
+          "description": "The maximum version of the host app that the plugin supports"
+        }
+      },
+      "additionalProperties": false
+    },
+    "PermissionsDefinition": {
+      "type": "object",
+      "properties": {
+        "clipboard": {
+          "type": "string",
+          "enum": ["read", "readAndWrite"],
+          "description": "Enables the plugin to read and write to the clipboard"
+        },
+        "localFileSystem": {
+          "type": "string",
+          "enum": ["plugin", "request", "fullAccess"],
+          "description": "Enables the plugin to access the file system"
+        },
+        "network": {
+          "$ref": "#/definitions/NetworkPermission",
+          "description": "Enables the plugin to access the network"
+        },
+        "webview": {
+          "$ref": "#/definitions/WebviewPermission",
+          "description": "Enables the plugin to use webviews in its UI"
+        },
+        "launchProcess": {
+          "$ref": "#/definitions/LaunchProcessPermission",
+          "description": "Enables the plugin to launch processes"
+        },
+        "allowCodeGenerationFromStrings": {
+          "type": "boolean",
+          "description": "Allows you to generate code from strings"
+        },
+        "ipc": {
+          "$ref": "#/definitions/IpcPermission",
+          "description": "Enables the plugin to communicate with other plugins"
+        }
+      },
+      "additionalProperties": false
+    },
+    "NetworkPermission": {
+      "type": "object",
+      "required": ["domains"],
+      "properties": {
+        "domains": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string",
+              "const": "all"
+            }
+          ],
+          "description": "The domains that the plugin can access"
+        }
+      },
+      "additionalProperties": false
+    },
+    "WebviewPermission": {
+      "type": "object",
+      "required": ["allow", "domains"],
+      "properties": {
+        "allow": {
+          "type": "string",
+          "const": "yes",
+          "description": "Must be set to 'yes' to enable webviews"
+        },
+        "domains": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string",
+              "const": "all"
+            }
+          ],
+          "description": "The domains that the plugin can access"
+        },
+        "enableMessageBridge": {
+          "type": "string",
+          "enum": ["no", "localAndRemote"],
+          "description": "Specifies whether the plugin can communicate with the webview using the message API"
+        }
+      },
+      "additionalProperties": false
+    },
+    "LaunchProcessPermission": {
+      "type": "object",
+      "required": ["schemes", "extensions"],
+      "properties": {
+        "schemes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A set of schemes that the plugin can launch"
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A set of extensions that the plugin can launch"
+        }
+      },
+      "additionalProperties": false
+    },
+    "IpcPermission": {
+      "type": "object",
+      "required": ["enablePluginCommunication"],
+      "properties": {
+        "enablePluginCommunication": {
+          "type": "boolean",
+          "description": "Enables plugin communication"
+        }
+      },
+      "additionalProperties": false
+    },
+    "FeatureFlags": {
+      "type": "object",
+      "properties": {
+        "enableFillAsCustomAttribute": {
+          "type": "boolean",
+          "description": "Enables the plugin to use CSS variable in the fill attribute on SVG elements"
+        },
+        "enableSWCSupport": {
+          "type": "boolean",
+          "description": "Enables the plugin to use Spectrum Web Components"
+        },
+        "enableAlerts": {
+          "type": "boolean",
+          "description": "Enable alert(), prompt() and confirm() in UXP"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
