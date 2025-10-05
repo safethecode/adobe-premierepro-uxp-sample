@@ -1,0 +1,65 @@
+{
+  "id": "com.example.uxp.premiere.plugin",
+  "name": "UXP Premiere Pro Plugin",
+  "version": "1.0.0",
+  "main": "index.html",
+  "manifestVersion": 6,
+  "host": [
+    {
+      "app": "premierepro",
+      "minVersion": "22.3"
+    }
+  ],
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "com.example.uxp.mainPanel",
+      "label": {
+        "default": "UXP Plugin"
+      },
+      "minimumSize": {
+        "width": 800,
+        "height": 800
+      },
+      "maximumSize": {
+        "width": 2000,
+        "height": 2000
+      },
+      "preferredDockedSize": {
+        "width": 230,
+        "height": 300
+      },
+      "preferredFloatingSize": {
+        "width": 450,
+        "height": 400
+      },
+      "icons": [
+        {
+          "width": 24,
+          "height": 24,
+          "path": "icons/uxp-icon-dark.png",
+          "scale": [1, 2],
+          "theme": ["darkest", "dark", "medium"]
+        },
+        {
+          "width": 24,
+          "height": 24,
+          "path": "icons/uxp-icon-light.png",
+          "scale": [1, 2],
+          "theme": ["lightest", "light"]
+        }
+      ]
+    }
+  ],
+  "featureFlags": {
+    "enableAlerts": true,
+    "enableSWCSupport": true
+  },
+  "requiredPermissions": {
+    "clipboard": "readAndWrite",
+    "network": {
+      "domains": "all"
+    },
+    "allowCodeGenerationFromStrings": true
+  }
+}
