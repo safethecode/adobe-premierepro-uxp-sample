@@ -1,9 +1,10 @@
 {
+  "$schema": "./uxp-manifest-schema.json",
   "id": "com.example.uxp.premiere.plugin",
   "name": "UXP Premiere Pro Plugin",
   "version": "1.0.0",
   "main": "index.html",
-  "manifestVersion": 6,
+  "manifestVersion": 5,
   "host": [
     {
       "app": "premierepro",
@@ -57,9 +58,13 @@
   },
   "requiredPermissions": {
     "clipboard": "readAndWrite",
+    "allowCodeGenerationFromStrings": true,
     "network": {
       "domains": "all"
     },
-    "allowCodeGenerationFromStrings": true
+    "webview": {
+      "domains": "all",
+      "allow": "yes"
+    }
   }
 }
