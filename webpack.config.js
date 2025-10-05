@@ -1,81 +1,73 @@
-const path = require('node:path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require("node:path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (_env, argv) => {
-  const isProduction = argv.mode === 'production'
+  const isProduction = argv.mode === "production";
 
   return {
-    entry: './src/index.tsx',
+    entry: "./src/index.tsx",
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'index.js',
+      path: path.resolve(__dirname, "dist"),
+      filename: "index.js",
       clean: true,
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
       alias: {
-        '@': path.resolve(__dirname, 'src'),
+        "@": path.resolve(__dirname, "src"),
       },
     },
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          exclude: /node_modules/,
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                cacheDirectory: true,
-              },
-            },
-            {
-              loader: 'ts-loader',
-              options: {
-                transpileOnly: true,
-              },
-            },
-          ],
-        },
-        {
-          test: /\.jsx?$/,
+          test: /\.(ts|tsx|js|jsx)$/,
           exclude: /node_modules/,
           use: {
-            loader: 'babel-loader',
+            loader: "swc-loader",
             options: {
-              cacheDirectory: true,
+              jsc: {
+                transform: {
+                  react: {
+                    development: !isProduction,
+                  },
+                },
+                target: "es2018",
+                externalHelpers: true,
+              },
+              minify: isProduction,
+              sourceMaps: !isProduction,
             },
           },
         },
         {
           test: /\.css$/,
           use: [
-            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader',
-            'postcss-loader', // postcss.config.js를 자동으로 사용
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader",
+            "postcss-loader",
           ],
         },
       ],
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/index.html',
-        filename: 'index.html',
+        template: "./src/index.html",
+        filename: "index.html",
       }),
       new MiniCssExtractPlugin({
-        filename: 'styles.css',
+        filename: "styles.css",
       }),
       new CopyWebpackPlugin({
         patterns: [
           {
-            from: 'manifest.json',
-            to: 'manifest.json',
+            from: "manifest.json",
+            to: "manifest.json",
           },
           {
-            from: 'icons',
-            to: 'icons',
+            from: "icons",
+            to: "icons",
             noErrorOnMissing: true,
           },
         ],
@@ -83,7 +75,7 @@ module.exports = (_env, argv) => {
     ],
     devServer: {
       static: {
-        directory: path.join(__dirname, 'dist'),
+        directory: path.join(__dirname, "dist"),
       },
       compress: true,
       port: 3000,
@@ -91,10 +83,10 @@ module.exports = (_env, argv) => {
       liveReload: true,
       open: false,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        "Access-Control-Allow-Origin": "*",
       },
     },
-    devtool: isProduction ? false : 'source-map',
-    mode: isProduction ? 'production' : 'development',
-  }
-}
+    devtool: isProduction ? false : "source-map",
+    mode: isProduction ? "production" : "development",
+  };
+};

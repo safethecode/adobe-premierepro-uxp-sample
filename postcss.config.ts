@@ -37,7 +37,6 @@ const config = {
         "mask",
       ];
 
-      // 1. @layer 제거 (UXP 미지원) - 내부 스타일은 유지
       root.walkAtRules("layer", (atRule) => {
         if (atRule.nodes && atRule.nodes.length > 0) {
           atRule.replaceWith(atRule.nodes);
