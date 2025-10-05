@@ -4,10 +4,10 @@
   "description": "Adobe UXP Premiere Pro Plugin with React, TypeScript, Tailwind CSS",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "webpack --mode development --watch",
-    "serve": "webpack serve --mode development --open",
-    "preview": "webpack serve --mode development",
-    "build": "webpack --mode production",
+    "dev": "MODE=dev webpack --mode development --watch",
+    "serve": "MODE=dev webpack serve --mode development --open",
+    "preview": "MODE=dev webpack serve --mode development",
+    "build": "MODE=build webpack --mode production",
     "clean": "rm -rf dist node_modules/.cache",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
@@ -31,10 +31,12 @@
     "regenerator-runtime": "^0.14.1"
   },
   "devDependencies": {
+    "@adobe/cc-ext-uxp-types": "https://github.com/justintaylor-dev/cc-ext-uxp-types.git",
     "@adobe/react-spectrum": "^3.34.1",
     "@spectrum-icons/workflow": "^4.2.9",
     "@swc/core": "^1.13.5",
     "@swc/helpers": "^0.5.17",
+    "@types/node": "^24.6.2",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.16",

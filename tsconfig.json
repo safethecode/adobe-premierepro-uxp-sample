@@ -22,7 +22,13 @@
         "./*"
       ]
     },
-    "isolatedModules": true
+    "isolatedModules": true,
+    "types": [
+      "./src/types/uxp.d.ts",
+      "./src/types/ppro.d.ts",
+      "@types/node",
+      "@adobe/cc-ext-uxp-types"
+    ]
   },
   "include": [
     "src/**/*"

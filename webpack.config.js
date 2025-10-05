@@ -5,18 +5,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (_env, argv) => {
   const isProduction = argv.mode === "production";
+  const mode = process.env.MODE || argv.mode;
 
   return {
     entry: "./src/index.tsx",
     output: {
       path: path.resolve(__dirname, "dist"),
       filename: "index.js",
-      clean: true,
-    },
-    resolve: {
-      extensions: [".ts", ".tsx", ".js", ".jsx"],
-      alias: {
-        "@": path.resolve(__dirname, "src"),
+      library: {
+        type: "commonjs2",
       },
     },
     module: {
@@ -33,8 +30,8 @@ module.exports = (_env, argv) => {
                     development: !isProduction,
                   },
                 },
-                target: "es2018",
-                externalHelpers: true,
+                target: "es2015",
+                externalHelpers: false,
               },
               minify: isProduction,
               sourceMaps: !isProduction,
@@ -50,6 +47,23 @@ module.exports = (_env, argv) => {
           ],
         },
       ],
+    },
+    externals: {
+      premierepro: "premierepro",
+      uxp: "uxp",
+      ...(isProduction && {
+        fs: "fs",
+        os: "os",
+        path: "path",
+        process: "process",
+        shell: "shell",
+      }),
+    },
+    resolve: {
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -85,8 +99,17 @@ module.exports = (_env, argv) => {
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
+      setupMiddlewares: (middlewares, devServer) => {
+        if (!devServer) {
+          throw new Error("webpack-dev-server is not defined");
+        }
+        return middlewares;
+      },
     },
-    devtool: isProduction ? false : "source-map",
+    devtool: mode && ["dev", "build"].includes(mode) ? "source-map" : false,
     mode: isProduction ? "production" : "development",
+    optimization: {
+      minimize: false,
+    },
   };
 };
