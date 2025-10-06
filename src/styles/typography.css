@@ -1,0 +1,64 @@
+.text-uxp-xs {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.text-uxp-sm {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.text-uxp-base {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.text-uxp-lg {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.text-uxp-xl {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.text-uxp-2xl {
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.text-uxp-3xl {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+/* Font weights optimized for UXP */
+.font-uxp-normal {
+  font-weight: 400;
+}
+
+.font-uxp-medium {
+  font-weight: 500;
+}
+
+.font-uxp-semibold {
+  font-weight: 600;
+}
+
+.font-uxp-bold {
+  font-weight: 700;
+}
+
+/* Line height utilities */
+.leading-uxp-tight {
+  line-height: 1.2;
+}
+
+.leading-uxp-normal {
+  line-height: 1.5;
+}
+
+.leading-uxp-relaxed {
+  line-height: 1.75;
+}

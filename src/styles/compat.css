@@ -1,0 +1,170 @@
+/**
+ * UXP Compatibility Styles
+ * Fallbacks and workarounds for unsupported features
+ */
+.flex-gap-1 > * + * {
+  margin-left: 0.25rem;
+}
+
+.flex-gap-2 > * + * {
+  margin-left: 0.5rem;
+}
+
+.flex-gap-3 > * + * {
+  margin-left: 0.75rem;
+}
+
+.flex-gap-4 > * + * {
+  margin-left: 1rem;
+}
+
+.flex-gap-6 > * + * {
+  margin-left: 1.5rem;
+}
+
+.flex-col-gap-1 > * + * {
+  margin-top: 0.25rem;
+}
+
+.flex-col-gap-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+.flex-col-gap-3 > * + * {
+  margin-top: 0.75rem;
+}
+
+.flex-col-gap-4 > * + * {
+  margin-top: 1rem;
+}
+
+.flex-col-gap-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.grid-gap-4 {
+  padding: 1rem;
+  margin: -1rem;
+}
+
+.grid-gap-4 > * {
+  padding: 1rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.inline-flex {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.shadow-border {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shadow-border-lg {
+  border: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.gradient-blue-purple {
+  background-color: #3b82f6;
+  background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+}
+
+.gradient-blue-cyan {
+  background-color: #3b82f6;
+  background-image: linear-gradient(to right, #3b82f6, #06b6d4);
+}
+
+.gradient-gray-dark {
+  background-color: #1f2937;
+  background-image: linear-gradient(to bottom, #1f2937, #111827);
+}
+
+.gradient-gray-light {
+  background-color: #6b7280;
+  background-image: linear-gradient(to bottom, #9ca3af, #6b7280);
+}
+
+.gradient-rainbow {
+  background-color: #ef4444;
+  background-image: linear-gradient(to right, #ef4444, #f59e0b, #10b981, #3b82f6, #8b5cf6);
+}
+
+.gradient-sunset {
+  background-color: #f59e0b;
+  background-image: linear-gradient(to bottom right, #f59e0b, #ef4444, #dc2626);
+}
+
+.gradient-dark {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
+}
+
+.gradient-overlay {
+  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
+}
+
+.gradient-overlay-top {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+}
+
+.gradient-shine {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.gradient-to-r {
+  background-image: linear-gradient(to right, currentColor, transparent);
+}
+
+.gradient-to-l {
+  background-image: linear-gradient(to left, currentColor, transparent);
+}
+
+.gradient-to-t {
+  background-image: linear-gradient(to top, currentColor, transparent);
+}
+
+.gradient-to-b {
+  background-image: linear-gradient(to bottom, currentColor, transparent);
+}
+
+.hover-dim:hover {
+  opacity: 0.8;
+}
+
+.hover-bright:hover {
+  opacity: 1;
+}
+
+.interactive {
+  opacity: 1;
+}
+
+.interactive:hover {
+  opacity: 0.9;
+}
+
+.interactive:active {
+  opacity: 0.7;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.loading {
+  opacity: 0.6;
+}
