@@ -1,4 +1,4 @@
-import { premierepro as app } from "../globals";
+import { premierepro as app } from "../utils/premierepro";
 
 export const notify = async (message: string) => {
   alert(message);
